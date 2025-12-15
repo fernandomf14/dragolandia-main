@@ -35,9 +35,15 @@ public class Modelo {
         Monstruo monstruo1 = new Monstruo("Troll Gigante", 100, "ogro", 30);
         Monstruo monstruo2 = new Monstruo("Caballero oscuro", 50, "ogro", 10);
 
+        //Creamos el bosque
+        bosque = new Bosque(1, "Bosque encantado", 1, monstruo1, dragon);
+
         //Agregamos los monstruos al bosque
         bosque.addMonstruos(monstruo1);
         bosque.addMonstruos(monstruo2);
+
+         //Creamos el mago
+        mago = new Mago("Merlín", 600, 20);
 
         //Creamos los hechizos que aprende el mago y los agregamos:
         Hechizo hechizo1 = new BolaDeFuego();
@@ -52,13 +58,8 @@ public class Modelo {
         Hechizo hechizo4 = new DarkBean();
         mago.aprenderHechizo(hechizo4);
 
-        //Creamos el mago
-        mago = new Mago("Merlín", 600, 20);
-
         //Creamos el dragón
         dragon = new Dragon(1, 10, "Draenor", 10);
-
-        bosque = new Bosque(1, "Bosque encantado", 1, monstruo1, dragon);
     }
 
     //GETTERS

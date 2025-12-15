@@ -1,4 +1,5 @@
 package com.example.Modelo;
+import java.util.ArrayList;
 import java.util.List;
 
 import jakarta.persistence.CascadeType;
@@ -39,6 +40,7 @@ public class Bosque {
         this.nivelPeligro = nivelPeligro;
         this.monstruoJefe = monstruoJefe;
         this.dragon = dragon;
+        this.listaMonstruo = new ArrayList<>();
     }
 
     //GETTERS

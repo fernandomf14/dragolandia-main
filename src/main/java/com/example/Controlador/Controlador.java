@@ -1,5 +1,7 @@
 package com.example.Controlador;
 
+import java.util.Random;
+
 import com.example.Modelo.Bosque;
 import com.example.Modelo.Dragon;
 import com.example.Modelo.Hechizo.Hechizo;
@@ -62,7 +64,7 @@ public class Controlador {
             //ATAQUES DEL MAGO A TODOS LOS MONSTRUOS
             //**************************************
             if (turno%2 == 0) { //TURNO DONDE LANZA UN HECHIZO
-                int random = (int) Math.random() * 3 + 0;
+                int random = new Random().nextInt(4);
                 Hechizo h = modelo.getMago().getConjuros().get(random); 
 
                 for (Monstruo m: bosque.getlistaMonstruos()) {
