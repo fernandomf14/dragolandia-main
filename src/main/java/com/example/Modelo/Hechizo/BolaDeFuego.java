@@ -1,7 +1,5 @@
 package com.example.Modelo.Hechizo;
 
-import java.util.List;
-
 import com.example.Modelo.Monstruo;
 
 import jakarta.persistence.Entity;
@@ -16,12 +14,8 @@ public class BolaDeFuego extends Hechizo {
     }
 
     @Override
-    public void Efecto(List<Monstruo> lista){
-
-        for (Monstruo m:lista) {
-            m.setVida(m.getVida() - 5);
-        }
-
+    public void Efecto(Monstruo m){
+        m.setVida(m.getVida() - 5);
     }
 
 }

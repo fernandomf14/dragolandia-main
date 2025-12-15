@@ -22,7 +22,7 @@ public class Mago {
     private  String nombre;
     private  int vida;
     private  int nivelMagia;
-    private List<Hechizo> conjuros = new ArrayList<>();
+    private final List<Hechizo> conjuros = new ArrayList<>();
 
     //Constructor
 
@@ -86,10 +86,10 @@ public class Mago {
         return conjuros.contains(hechizo);
     }
 
-    public void lanzarHechizo(List<Monstruo> lista, Hechizo hechizo) {
+    public void lanzarHechizo(Hechizo hechizo, Monstruo m) {
 
         if (comprobarHechizo(hechizo)) {
-            hechizo.Efecto(lista);
+            hechizo.Efecto(m);
         } else {
             setVida(getVida() - 1);
         }

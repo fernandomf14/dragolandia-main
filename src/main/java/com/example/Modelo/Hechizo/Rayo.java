@@ -1,7 +1,5 @@
 package com.example.Modelo.Hechizo;
 
-import java.util.List;
-
 import com.example.Modelo.Monstruo;
 
 public class Rayo extends Hechizo {
@@ -11,10 +9,8 @@ public class Rayo extends Hechizo {
     }
 
     @Override
-    public void Efecto(List<Monstruo> lista){
-        for (Monstruo m:lista) {
-            m.setVida(m.getVida() - 3);
-        }
+    public void Efecto(Monstruo m){
+        m.setVida(m.getVida() - 3);
     }
 
 }

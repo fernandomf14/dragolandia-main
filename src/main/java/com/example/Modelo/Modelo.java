@@ -10,9 +10,9 @@ public class Modelo {
     
     private static Modelo instancia;
 
-    private  Monstruo monstruo;
     private  Mago mago;
     private  Bosque bosque;
+    private Dragon dragon;
 
     public Modelo() {
         inicializarJuego();
@@ -33,7 +33,7 @@ public class Modelo {
     public final void inicializarJuego() {
         //Creamos los monstruos del bosque
         Monstruo monstruo1 = new Monstruo("Troll Gigante", 100, "ogro", 30);
-        Monstruo monstruo2 = new Monstruo("Troll Gigante", 50, "ogro", 10);
+        Monstruo monstruo2 = new Monstruo("Caballero oscuro", 50, "ogro", 10);
 
         //Agregamos los monstruos al bosque
         bosque.addMonstruos(monstruo1);
@@ -53,12 +53,12 @@ public class Modelo {
         mago.aprenderHechizo(hechizo4);
 
         //Creamos el mago
-        mago = new Mago("Merlín", 200, 30);
+        mago = new Mago("Merlín", 600, 20);
 
         //Creamos el dragón
-        Dragon dragon = new Dragon();
+        dragon = new Dragon(1, 10, "Draenor", 10);
 
-        bosque = new Bosque(1, "Bosque encantado", 1, monstruo, dragon);
+        bosque = new Bosque(1, "Bosque encantado", 1, monstruo1, dragon);
     }
 
     //GETTERS
@@ -69,6 +69,10 @@ public class Modelo {
 
     public Bosque getBosque() {
         return bosque;
+    }
+
+    public Dragon getDragon() {
+        return dragon;
     }
 
 }

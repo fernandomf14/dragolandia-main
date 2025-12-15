@@ -3,13 +3,14 @@ package com.example;
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
-import org.hibernate.cfg.Configuration;
 import org.hibernate.Transaction;
+import org.hibernate.cfg.Configuration;
 
 import com.example.Controlador.Controlador;
+import com.example.Modelo.Bosque;
+import com.example.Modelo.Dragon;
 import com.example.Modelo.Mago;
 import com.example.Modelo.Monstruo;
-import com.example.Modelo.Bosque;
 
 public final class Principal {
     private final Controlador controlador = new Controlador();
@@ -34,21 +35,26 @@ public final class Principal {
             Bosque bosque = controlador.getModelo().getBosque();
             session.merge(bosque);
 
-            Monstruo monstruo = controlador.getModelo().getBosque().getMonstruoJefe();
-            session.merge(monstruo);
+            for (Monstruo m:controlador.getModelo().getBosque().getlistaMonstruos()) {
+                session.merge(m);
+            }
+
+            Dragon dragon = controlador.getModelo().getBosque().getDragon();
+            session.merge(dragon);
 
             tx.commit();
 
             //AVISOS 
-            System.out.println("Se ha insertado correctamente: ");
+            controlador.getVista().imprimirMensage("Se ha insertado correctamente: ");
             System.out.println(controlador.getModelo().getBosque());
             System.out.println(controlador.getModelo().getMago());
             System.out.println(controlador.getModelo().getBosque().getMonstruoJefe());
+            System.out.println(controlador.getModelo().getDragon());
             
             controlador.ComenzarCombate();
 
         } catch(HibernateException e) {
-            System.out.println("Se ha lanzado una excepcion en Hibernate" + e.getMessage());
+            controlador.getVista().imprimirMensage("Se ha lanzado una excepcion en Hibernate" + e.getMessage());
         }
 
 

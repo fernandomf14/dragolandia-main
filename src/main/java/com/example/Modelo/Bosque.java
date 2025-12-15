@@ -63,6 +63,10 @@ public class Bosque {
         return listaMonstruo;
     }
 
+    public Dragon getDragon() {
+        return dragon;
+    }
+
     //SETTERS
 
     public void setId(int id) {
@@ -79,6 +83,10 @@ public class Bosque {
 
     public void setMonstruoJefe(Monstruo monstruoJefe) {
         this.monstruoJefe = monstruoJefe;
+    }
+
+    public void setDragon(Dragon d) {
+        this.dragon = d;
     }
 
     @Override
@@ -99,6 +107,10 @@ public class Bosque {
 
     public void addMonstruos(Monstruo monstruo) {
         listaMonstruo.add(monstruo);
+    }
+    
+    public void eliminarMonstruo(Monstruo m) {
+        listaMonstruo.remove(m);
     }
     
 }

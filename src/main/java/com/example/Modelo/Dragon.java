@@ -36,7 +36,7 @@ public class Dragon {
         } else {
             this.resistencia = 1;
         }
-        
+    
     }
 
     //GETTERS
@@ -89,7 +89,6 @@ public class Dragon {
 
     public void exhalar(Monstruo m) {
         m.setVida(m.getVida()-getIntensidadFuego());
-        System.out.println("La vida del monstruo fue reducida a "+ m.getVida());
     }
 
     
