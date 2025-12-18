@@ -1,5 +1,6 @@
 package com.example.Controlador;
 
+import java.util.ArrayList;
 import java.util.Random;
 
 import com.example.Modelo.Bosque;
@@ -56,6 +57,7 @@ public class Controlador {
             if (modelo.getBosque().getlistaMonstruos().isEmpty()) {
                 vista.imprimirMensage("El mago fue el vencedor del bosque");
                 juegan = true;
+                break;
             }
 
             vista.imprimirMensage("Turno: " + turno);
@@ -63,30 +65,33 @@ public class Controlador {
             //**************************************
             //ATAQUES DEL MAGO A TODOS LOS MONSTRUOS
             //**************************************
+
             if (turno%2 == 0) { //TURNO DONDE LANZA UN HECHIZO
                 int random = new Random().nextInt(4);
                 Hechizo h = modelo.getMago().getConjuros().get(random); 
 
-                for (Monstruo m: bosque.getlistaMonstruos()) {
-
-                    mago.lanzarHechizo(h, m);
-                    vista.imprimirMensage("El mago " + mago.getNombre() + " ha lanzado el hechizo " + h.getNombre() + " atacando al monstruo " + m.getNombre());
+                for (Monstruo m: new ArrayList<>(bosque.getlistaMonstruos())) {
 
                     if(m.getVida() <= 0) {
                         bosque.eliminarMonstruo(m);
+                        vista.imprimirMensage("El monstruo " + m.getNombre() + " ha sido derrotado");
                     }
+
+                    mago.lanzarHechizo(h, m);
+                    vista.imprimirMensage("El mago " + mago.getNombre() + " ha lanzado el hechizo " + h.getNombre() + " atacando al monstruo " + m.getNombre() + " y tiene de vida " + m.getVida());
                 }
 
             } else { //TURNO NORMAL DONDE NO LANZA UN HECHIZO
                 
-                for (Monstruo m: bosque.getlistaMonstruos()) {
-
-                    mago.lanzarHechizo(m);
-                    vista.imprimirMensage("El mago " + mago.getNombre() + " ha atacado al monstruo " + m.getNombre());
+                for (Monstruo m: new ArrayList<>(bosque.getlistaMonstruos())) {
 
                     if(m.getVida() <= 0) {
                         bosque.eliminarMonstruo(m);
+                        vista.imprimirMensage("El monstruo " + m.getNombre() + " ha sido derrotado");
                     }
+
+                    mago.lanzarHechizo(m);
+                    vista.imprimirMensage("El mago " + mago.getNombre() + " ha atacado al monstruo " + m.getNombre());
                 }
 
             }
@@ -123,6 +128,7 @@ public class Controlador {
             //**************************************
 
             turno++;
+
 
             //**************************************
             //ESTADISTICAS DE ESE TURNO

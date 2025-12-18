@@ -34,8 +34,7 @@ public class Bosque {
 
     public Bosque(){}
 
-    public Bosque(int id, String nombre, int nivelPeligro, Monstruo monstruoJefe, Dragon dragon) {
-        this.id = id;
+    public Bosque(String nombre, int nivelPeligro, Monstruo monstruoJefe, Dragon dragon) {
         this.nombre = nombre;
         this.nivelPeligro = nivelPeligro;
         this.monstruoJefe = monstruoJefe;
@@ -113,6 +112,14 @@ public class Bosque {
     
     public void eliminarMonstruo(Monstruo m) {
         listaMonstruo.remove(m);
+    }
+
+    public void agregarDragon(Dragon dragon) {
+        this.dragon = dragon;
+    }
+
+    public void cambiarDragon(Dragon dragon) {
+        this.dragon = dragon;
     }
     
 }

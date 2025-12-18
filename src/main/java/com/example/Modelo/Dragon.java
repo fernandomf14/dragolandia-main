@@ -21,8 +21,7 @@ public class Dragon {
     //Constructor vacio
     public Dragon(){}
 
-    public Dragon(int id, int intensidadFuego, String nombre, int resistencia) {
-        this.id = id;
+    public Dragon(int intensidadFuego, String nombre, int resistencia) {
         
         if (intensidadFuego >= 0) {
             this.intensidadFuego = intensidadFuego;

@@ -6,7 +6,7 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.Table;
 
 @Entity
-@Table(name="Hechizo")
+@Table(name="Hechizo_fuego")
 public class BolaDeFuego extends Hechizo {
 
     public BolaDeFuego() {
