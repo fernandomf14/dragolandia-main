@@ -114,10 +114,6 @@ public class Bosque {
         listaMonstruo.remove(m);
     }
 
-    public void agregarDragon(Dragon dragon) {
-        this.dragon = dragon;
-    }
-
     public void cambiarDragon(Dragon dragon) {
         this.dragon = dragon;
     }

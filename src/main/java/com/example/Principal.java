@@ -62,9 +62,6 @@ public final class Principal {
 
             tx.commit();
 
-            //Modificar algún objeto de la tabla
-
-            //Eliminar un objeto de la tabla
 
         } catch(HibernateException e) {
             controlador.getVista().imprimirMensage("Se ha lanzado una excepcion en Hibernate" + e.getMessage());
@@ -135,7 +132,7 @@ public final class Principal {
             session.remove(m);
 
             //AVISOS 
-            controlador.getVista().imprimirMensage("Se ha modificado el mago ");
+            controlador.getVista().imprimirMensage("Se ha removido el mago ");
             
             tx.commit();
 
