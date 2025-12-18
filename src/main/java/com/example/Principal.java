@@ -132,7 +132,7 @@ public final class Principal {
 
             //Modificar algún objeto de la tabla
             Mago m = session.find(Mago.class, 2L);
-            m.setNombre("Jose el mago");
+            session.remove(m);
 
             //AVISOS 
             controlador.getVista().imprimirMensage("Se ha modificado el mago ");
