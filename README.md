@@ -59,6 +59,21 @@ classDiagram
         +int resistencia
     }
 
+    class ControladorDragon {
+        +agregarDragon(em: EntityManager, dragon: Dragon)
+        +modificarDragonNombre(em: EntityManager, id: int, nombre: String)
+        +modificarDragonIntensidadFuego(em: EntityManager, id: int, intensidad: int)
+        +modificarDragonResistencia(em: EntityManager, id: int, resistencia: int)
+        +borrarDragon(em: EntityManager, id: int)
+        +obtenerDragones(em: EntityManager) List~Dragon~
+        +agregarDragon(session: Session, dragon: Dragon)
+        +modificarDragonNombre(session: Session, id: int, nombre: String)
+        +modificarDragonIntensidadFuego(session: Session, id: int, intensidad: int)
+        +modificarDragonResistencia(session: Session, id: int, resistencia: int)
+        +borrarDragon(session: Session, id: int)
+        +obtenerDragones(session: Session) List~Dragon~
+    }
+
     class Hechizo {
         <<abstract>>
         +String nombre
@@ -77,6 +92,62 @@ classDiagram
         +void addMonstruo(Monstruo monstruo)
         +void eliminarMonstruo(Monstruo monstruo)
         +void cambiarDragon(Dragon)
+    }
+
+    class ControladorMago {
+        +agregarMago(em: EntityManager, mago: Mago)
+        +modificarMagoNombre(em: EntityManager, id: int, nombre: String)
+        +modificarMagoVida(em: EntityManager, id: int, vida: int)
+        +modificarMagoNivelMagia(em: EntityManager, id: int, nivelMagia: int)
+        +borrarMago(em: EntityManager, id: int)
+        +obtenerMagos(em: EntityManager) List~Mago~
+        +agregarMago(session: Session, mago: Mago)
+        +modificarMagoNombre(session: Session, id: int, nombre: String)
+        +modificarMagoVida(session: Session, id: int, vida: int)
+        +modificarMagoNivelMagia(session: Session, id: int, nivelMagia: int)
+        +borrarMago(session: Session, id: int)
+        +obtenerMagos(session: Session) List~Mago~
+    }
+
+    class ControladorDragon {
+        +agregarDragon(em: EntityManager, dragon: Dragon)
+        +modificarDragonNombre(em: EntityManager, id: int, nombre: String)
+        +modificarDragonIntensidadFuego(em: EntityManager, id: int, intensidad: int)
+        +modificarDragonResistencia(em: EntityManager, id: int, resistencia: int)
+        +borrarDragon(em: EntityManager, id: int)
+        +obtenerDragones(em: EntityManager) List~Dragon~
+        +agregarDragon(session: Session, dragon: Dragon)
+        +modificarDragonNombre(session: Session, id: int, nombre: String)
+        +modificarDragonIntensidadFuego(session: Session, id: int, intensidad: int)
+        +modificarDragonResistencia(session: Session, id: int, resistencia: int)
+        +borrarDragon(session: Session, id: int)
+        +obtenerDragones(session: Session) List~Dragon~
+    }
+
+    class ControladorBosque {
+        +agregarBosque(em: EntityManager, bosque: Bosque)
+        +modificarBosqueNombre(em: EntityManager, id: int, nombre: String)
+        +modificarBosqueNivelPeligro(em: EntityManager, id: int, nivel: int)
+        +modificarBosqueMonstruoJefe(em: EntityManager, id: int, monstruo: Monstruo)
+        +modificarBosqueDragon(em: EntityManager, id: int, dragon: Dragon)
+        +modificarBosqueMonstruos(em: EntityManager, id: int, monstruo: Monstruo)
+        +borrarBosque(em: EntityManager, id: int)
+        +obtenerBosques(em: EntityManager) List~Bosque~
+        +agregarBosque(session: Session, bosque: Bosque)
+        +modificarBosqueNombre(session: Session, id: int, nombre: String)
+        +modificarBosqueNivelPeligro(session: Session, id: int, nivel: int)
+        +modificarBosqueMonstruoJefe(session: Session, id: int, monstruo: Monstruo)
+        +modificarBosqueDragon(session: Session, id: int, dragon: Dragon)
+        +modificarBosqueMonstruos(session: Session, id: int, monstruo: Monstruo)
+        +borrarBosque(session: Session, id: int)
+        +obtenerBosques(session: Session) List~Bosque~
+    }
+
+    class PrincipalManager {
+        -Controlador controlador
+        +static EntityManagerFactory emf
+        +main(String[] args)
+        +static EntityManagerFactory getEmf()
     }
 
     %% Enumerados
@@ -103,6 +174,12 @@ classDiagram
     BolaDeNieve --|> Hechizo
     DarkBean --|> Hechizo
     Rayo --|> Hechizo
+    Tipo --> Monstruo : Es del tipo
+    ControladorBosque --> Bosque
+    ControladorDragon --> Dragon
+    ControladorMonstruo --> Monstruo
+    ControladorMago --> Mago
+    PrincipalManager --> Controlador
 
 ```
 ## Diseño
@@ -149,5 +226,6 @@ erDiagram
     BOSQUE ||--|| MONSTRUO : jefe
     DRAGON }o--|| BOSQUE : habita_en
     BOSQUE ||--o{ MAGO : participa
+
 
 ```
