@@ -13,7 +13,7 @@ import com.example.Modelo.Mago;
 import com.example.Modelo.Monstruo;
 
 public final class Principal {
-    private final Controlador controlador = new Controlador();
+    final Controlador controlador = new Controlador();
     
     public static void main(String[] args) {
         Principal principal = new Principal();
@@ -42,10 +42,10 @@ public final class Principal {
 
             //AVISOS 
             controlador.getVista().imprimirMensage("Se ha insertado correctamente: ");
-            System.out.println(controlador.getModelo().getBosque());
-            System.out.println(controlador.getModelo().getMago());
-            System.out.println(controlador.getModelo().getBosque().getMonstruoJefe());
-            System.out.println(controlador.getModelo().getDragon());
+            controlador.getVista().imprimirMensage(controlador.getModelo().getBosque().toString());
+            controlador.getVista().imprimirMensage(controlador.getModelo().getMago().toString());
+            controlador.getVista().imprimirMensage(controlador.getModelo().getBosque().getMonstruoJefe().toString());
+            controlador.getVista().imprimirMensage(controlador.getModelo().getDragon().toString());
 
             //Agregar nuevos
             Mago mago2 = new Mago("Harry Potter", 200,50);
@@ -107,7 +107,7 @@ public final class Principal {
             Transaction tx = session.beginTransaction();
 
             //Modificar algún objeto de la tabla
-            Mago m = session.find(Mago.class, 2L);
+            Mago m = session.find(Mago.class, 3L);
             m.setNombre("Jose el mago");
 
             //AVISOS 
@@ -120,7 +120,7 @@ public final class Principal {
         }
 
         //Eliminar un objeto de la tabla
-
+        //La eliminación puede fallar si no encuentra el ID, en este caso ya elimine el mago con identificador 2, da un fallo si no lo encuentra
         try (SessionFactory factory = new Configuration().configure().buildSessionFactory();) {
 
             Session session = factory.getCurrentSession();

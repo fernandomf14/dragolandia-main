@@ -45,7 +45,7 @@ public class Modelo {
         bosque.addMonstruos(monstruo1);
         bosque.addMonstruos(monstruo2);
 
-         //Creamos el mago
+        //Creamos el mago
         mago = new Mago("Merlín", 600, 20);
 
         //Creamos los hechizos que aprende el mago y los agregamos:
@@ -60,8 +60,7 @@ public class Modelo {
 
         Hechizo hechizo4 = new DarkBean();
         mago.aprenderHechizo(hechizo4);
-
-        
+  
     }
 
     //GETTERS

@@ -24,7 +24,7 @@ public class Bosque {
     @OneToOne(cascade = CascadeType.ALL) // Relación uno a uno
     private Monstruo monstruoJefe;
 
-    @OneToMany( cascade = CascadeType.ALL )
+    @OneToMany(cascade = CascadeType.ALL )
     private List<Monstruo> listaMonstruo;
 
     @OneToOne( cascade = CascadeType.ALL )
