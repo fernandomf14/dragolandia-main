@@ -1,10 +1,11 @@
-package com.example.Modelo;
+package com.example.Modelo.Mago;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import com.example.Modelo.Hechizo.Hechizo;
 
+import com.example.Modelo.Monstruo.Monstruo;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -23,7 +24,7 @@ public class Mago {
     private  String nombre;
     private  int vida;
     private  int nivelMagia;
-    
+
     @Transient
     private final List<Hechizo> conjuros = new ArrayList<>();
 
@@ -75,7 +76,7 @@ public class Mago {
     public void setNivelMagia(int nivelMagia) {
         this.nivelMagia = nivelMagia;
     }
-    
+
     //Métodos:
     public void lanzarHechizo(Monstruo monstruo) {
         monstruo.setVida(monstruo.getVida()-nivelMagia);

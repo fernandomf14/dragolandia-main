@@ -1,7 +1,9 @@
-package com.example.Modelo;
+package com.example.Modelo.Bosque;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.example.Modelo.Dragon.Dragon;
+import com.example.Modelo.Monstruo.Monstruo;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -20,7 +22,7 @@ public class Bosque {
     private int id;
     private String nombre;
     private int nivelPeligro;
-    
+
     @OneToOne(cascade = CascadeType.ALL) // Relación uno a uno
     private Monstruo monstruoJefe;
 
@@ -29,7 +31,7 @@ public class Bosque {
 
     @OneToOne( cascade = CascadeType.ALL )
     private Dragon dragon;
-    
+
     //CONSTRUCTOR
 
     public Bosque(){}
@@ -109,7 +111,7 @@ public class Bosque {
     public void addMonstruos(Monstruo monstruo) {
         listaMonstruo.add(monstruo);
     }
-    
+
     public void eliminarMonstruo(Monstruo m) {
         listaMonstruo.remove(m);
     }
@@ -117,5 +119,5 @@ public class Bosque {
     public void cambiarDragon(Dragon dragon) {
         this.dragon = dragon;
     }
-    
+
 }

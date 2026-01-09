@@ -1,5 +1,6 @@
-package com.example.Modelo;
+package com.example.Modelo.Dragon;
 
+import com.example.Modelo.Monstruo.Monstruo;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -22,7 +23,7 @@ public class Dragon {
     public Dragon(){}
 
     public Dragon(int intensidadFuego, String nombre, int resistencia) {
-        
+
         if (intensidadFuego >= 0) {
             this.intensidadFuego = intensidadFuego;
         } else {
@@ -35,7 +36,7 @@ public class Dragon {
         } else {
             this.resistencia = 1;
         }
-    
+
     }
 
     //GETTERS
@@ -90,5 +91,5 @@ public class Dragon {
         m.setVida(m.getVida()-getIntensidadFuego());
     }
 
-    
+
 }

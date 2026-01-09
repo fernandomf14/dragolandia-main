@@ -1,6 +1,6 @@
 package com.example.Modelo.Hechizo;
 
-import com.example.Modelo.Monstruo;
+import com.example.Modelo.Monstruo.Monstruo;
 
 import jakarta.persistence.Entity;
 

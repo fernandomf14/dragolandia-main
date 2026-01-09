@@ -1,5 +1,6 @@
-package com.example.Modelo;
+package com.example.Modelo.Monstruo;
 
+import com.example.Modelo.Mago.Mago;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -27,16 +28,16 @@ public class Monstruo {
 
         if (vida > 0) this.vida = vida;
         else throw new IllegalArgumentException("La vida debe ser mayor a 0");
-        
+
         try {
             this.tipo = Tipo.valueOf(tipo.toLowerCase());
         } catch (IllegalArgumentException e) {
             throw new IllegalArgumentException("Tipo de monstruo inválido: " + tipo);
         }
-        
+
         this.fuerza = fuerza;
     }
-    
+
 
     //GETTERS
 
@@ -78,7 +79,7 @@ public class Monstruo {
         } catch(IllegalStateException e) {
             System.out.println("Error en el tipo de monstruo" + e.getMessage());
         }
-        
+
     }
 
     public void setFuerza(int fuerza) {
@@ -91,7 +92,7 @@ public class Monstruo {
         mago.setVida(mago.getVida()-fuerza);
     }
 
-    //ToString 
+    //ToString
     @Override
     public String toString() {
         return "Monstruo [id=" + id + ", nombre=" + nombre + ", vida=" + vida + ", tipo=" + tipo + ", fuerza=" + fuerza

@@ -1,23 +1,27 @@
 package com.example.Modelo;
 
+import com.example.Modelo.Bosque.Bosque;
+import com.example.Modelo.Dragon.Dragon;
 import com.example.Modelo.Hechizo.BolaDeFuego;
 import com.example.Modelo.Hechizo.BolaDeNieve;
 import com.example.Modelo.Hechizo.DarkBean;
 import com.example.Modelo.Hechizo.Hechizo;
 import com.example.Modelo.Hechizo.Rayo;
+import com.example.Modelo.Mago.Mago;
+import com.example.Modelo.Monstruo.Monstruo;
 
 public class Modelo {
-    
+
     private static Modelo instancia;
 
-    private  Mago mago;
-    private  Bosque bosque;
+    private Mago mago;
+    private Bosque bosque;
     private Dragon dragon;
 
     public Modelo() {
         inicializarJuego();
     }
-    
+
     //SINGLETON
     public static Modelo getInstancia() {
         if (instancia == null) {
@@ -60,7 +64,7 @@ public class Modelo {
 
         Hechizo hechizo4 = new DarkBean();
         mago.aprenderHechizo(hechizo4);
-  
+
     }
 
     //GETTERS

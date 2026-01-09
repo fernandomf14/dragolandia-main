@@ -1,6 +1,6 @@
 package com.example.Modelo.Hechizo;
 
-import com.example.Modelo.Monstruo;
+import com.example.Modelo.Monstruo.Monstruo;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -39,5 +39,5 @@ public abstract class Hechizo {
         this.nombre = nombre;
     }
 
-    
+
 }

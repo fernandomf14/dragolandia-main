@@ -1,5 +1,9 @@
 package com.example;
 
+import com.example.Modelo.Bosque.ControladorBosque;
+import com.example.Modelo.Dragon.ControladorDragon;
+import com.example.Modelo.Mago.ControladorMago;
+import com.example.Modelo.Monstruo.ControladorMonstruo;
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
@@ -7,137 +11,230 @@ import org.hibernate.Transaction;
 import org.hibernate.cfg.Configuration;
 
 import com.example.Controlador.Controlador;
-import com.example.Modelo.Bosque;
-import com.example.Modelo.Dragon;
-import com.example.Modelo.Mago;
-import com.example.Modelo.Monstruo;
+import com.example.Modelo.Bosque.Bosque;
+import com.example.Modelo.Dragon.Dragon;
+import com.example.Modelo.Mago.Mago;
+import com.example.Modelo.Monstruo.Monstruo;
 
 public final class Principal {
     final Controlador controlador = new Controlador();
-    
+
     public static void main(String[] args) {
         Principal principal = new Principal();
         Controlador controlador = principal.controlador;
 
-        //Creamos los datos en la base de datos.
-        try (SessionFactory factory = new Configuration().configure().buildSessionFactory();) {
+        try (SessionFactory factory = new Configuration().configure().buildSessionFactory()) {
 
             Session session = factory.getCurrentSession();
-            
-            Transaction tx = session.beginTransaction();
 
-            //Guardamos los objetos
-            Mago mago = controlador.getModelo().getMago();
-            session.merge(mago);
-
-            Bosque bosque = controlador.getModelo().getBosque();
-            session.merge(bosque);
-
-            for (Monstruo m:controlador.getModelo().getBosque().getlistaMonstruos()) {
-                session.merge(m);
+            // ===========================
+            // MAGOS
+            // ===========================
+            try {
+                Mago mago = controlador.getModelo().getMago();
+                ControladorMago.agregarMago(session, mago);
+                controlador.getVista().imprimirMensage("Se ha insertado el mago: " + mago);
+            } catch (Exception e) {
+                controlador.getVista().imprimirMensage("Error al insertar mago: " + e.getMessage());
             }
 
-            Dragon dragon = controlador.getModelo().getBosque().getDragon();
-            session.merge(dragon);
+            try {
+                ControladorMago.modificarMagoNombre(session, 1, "Juan el mago");
+                controlador.getVista().imprimirMensage("Se ha modificado el nombre del mago 1 a Juan el mago");
+            } catch (Exception e) {
+                controlador.getVista().imprimirMensage("Error al modificar nombre del mago: " + e.getMessage());
+            }
 
-            //AVISOS 
-            controlador.getVista().imprimirMensage("Se ha insertado correctamente: ");
-            controlador.getVista().imprimirMensage(controlador.getModelo().getBosque().toString());
-            controlador.getVista().imprimirMensage(controlador.getModelo().getMago().toString());
-            controlador.getVista().imprimirMensage(controlador.getModelo().getBosque().getMonstruoJefe().toString());
-            controlador.getVista().imprimirMensage(controlador.getModelo().getDragon().toString());
+            try {
+                ControladorMago.modificarMagoVida(session, 1, 40);
+                controlador.getVista().imprimirMensage("Se ha modificado la vida del mago 1 a 40");
+            } catch (Exception e) {
+                controlador.getVista().imprimirMensage("Error al modificar la vida del mago: " + e.getMessage());
+            }
 
-            //Agregar nuevos
-            Mago mago2 = new Mago("Harry Potter", 200,50);
-            session.merge(mago2);
+            try {
+                ControladorMago.modificarMagoNivelMagia(session, 1, 40);
+                controlador.getVista().imprimirMensage("Se ha modificado el nivel de magia del mago 1 a 40");
+            } catch (Exception e) {
+                controlador.getVista().imprimirMensage("Error al modificar el nivel de magia del mago: " + e.getMessage());
+            }
 
-            Dragon dragon2 = new Dragon(20, "Xebec", 30);
-            session.merge(dragon2);
+            controlador.getVista().imprimirMensage("Lista de magos:");
+            controlador.getVista().imprimirMensage("-----------------------------");
+            for (Mago m:ControladorMago.obtenerMagos(session)) {
+                controlador.getVista().imprimirMensage(m.toString());
+            }
 
-            Monstruo monstruo1 = new Monstruo("Espectro sombrío", 200, "espectro", 60);
-            session.merge(monstruo1);
+            try {
+                ControladorMago.borrarMago(session, 1);
+                controlador.getVista().imprimirMensage("Se ha eliminado el mago 1");
+            } catch (Exception e) {
+                controlador.getVista().imprimirMensage("Error al borrar mago: " + e.getMessage());
+            }
 
-            Bosque bosque2 = new Bosque( "El bosque de la penumbra", 2, monstruo1, dragon2);
-            session.merge(bosque2);
+            // ===========================
+            // DRAGONES
+            // ===========================
+            try {
+                Dragon dragon = controlador.getModelo().getDragon();
+                ControladorDragon.agregarDragon(session, dragon);
+                controlador.getVista().imprimirMensage("Se ha insertado el dragon: " + dragon);
+            } catch (Exception e) {
+                controlador.getVista().imprimirMensage("Error al insertar dragon: " + e.getMessage());
+            }
 
-            tx.commit();
+            try {
+                ControladorDragon.modificarDragonNombre(session, 1, "El dragon de los cielos");
+                controlador.getVista().imprimirMensage("Se ha modificado el nombre del dragon 1");
+            } catch (Exception e) {
+                controlador.getVista().imprimirMensage("Error al modificar nombre del dragon: " + e.getMessage());
+            }
 
+            try {
+                ControladorDragon.modificarDragonIntensidadFuego(session, 1,30);
+                controlador.getVista().imprimirMensage("Se ha modificado la intensidad de fuego del dragon 1");
+            } catch (Exception e) {
+                controlador.getVista().imprimirMensage("Error al borrar dragon: " + e.getMessage());
+            }
 
-        } catch(HibernateException e) {
-            controlador.getVista().imprimirMensage("Se ha lanzado una excepcion en Hibernate" + e.getMessage());
-        }
+            try {
+                ControladorDragon.modificarDragonResistencia(session, 1,30);
+                controlador.getVista().imprimirMensage("Se ha modificado la resistencia del dragon 1");
+            } catch (Exception e) {
+                controlador.getVista().imprimirMensage("Error al modificar la resistencia del dragon: " + e.getMessage());
+            }
 
-        try (SessionFactory factory = new Configuration().configure().buildSessionFactory();) {
+            try {
+                controlador.getVista().imprimirMensage("Lista de dragones:");
+                controlador.getVista().imprimirMensage("-----------------------------");
+                for (Dragon d:ControladorDragon.obtenerDragones(session)) {
+                    controlador.getVista().imprimirMensage(d.toString());
+                }
+            } catch (Exception e) {
+                controlador.getVista().imprimirMensage("Error al imprimir la lista de dragones: " + e.getMessage());
+            }
 
-            Session session = factory.getCurrentSession();
-            
-            Transaction tx = session.beginTransaction();
+            try {
+                ControladorDragon.borrarDragon(session, 1);
+                controlador.getVista().imprimirMensage("Se ha eliminado el dragon 1");
+            } catch (Exception e) {
+                controlador.getVista().imprimirMensage("Error al borrar dragon: " + e.getMessage());
+            }
 
-            //Agregar nuevos
-            Mago mago2 = new Mago("Harry Potter", 200,50);
-            session.merge(mago2);
+            // ===========================
+            // MONSTRUOS
+            // ===========================
+            try {
+                Monstruo monstruo = controlador.getModelo().getBosque().getMonstruoJefe();
+                ControladorMonstruo.agregarMonstruo(session, monstruo);
+                controlador.getVista().imprimirMensage("Se ha insertado el monstruo: " + monstruo);
+            } catch (Exception e) {
+                controlador.getVista().imprimirMensage("Error al insertar monstruo: " + e.getMessage());
+            }
 
-            Dragon dragon2 = new Dragon(20, "Xebec", 30);
-            session.merge(dragon2);
+            try {
+                ControladorMonstruo.modificarMonstruoNombre(session, 1, "El troll oscuro");
+                controlador.getVista().imprimirMensage("Se ha modificado el nombre del monstruo 1");
+            } catch (Exception e) {
+                controlador.getVista().imprimirMensage("Error al modificar nombre del monstruo: " + e.getMessage());
+            }
 
-            Monstruo monstruo1 = new Monstruo("Espectro sombrío", 200, "espectro", 60);
-            session.merge(monstruo1);
+            try {
+                ControladorMonstruo.modificarMonstruoTipo(session, 1, "troll");
+                controlador.getVista().imprimirMensage("Se ha modificado el tipo del monstruo 1");
+            } catch (Exception e) {
+                controlador.getVista().imprimirMensage("Error al modificar el tipo del monstruo: " + e.getMessage());
+            }
 
-            Bosque bosque2 = new Bosque( "El bosque de la penumbra", 2, monstruo1, dragon2);
-            session.merge(bosque2);
+            try {
+                ControladorMonstruo.modificarMonstruoVida(session, 1, 50);
+                controlador.getVista().imprimirMensage("Se ha modificado la vida del monstruo 1");
+            } catch (Exception e) {
+                controlador.getVista().imprimirMensage("Error al modificar la vida del monstruo: " + e.getMessage());
+            }
 
-            //AVISOS 
-            controlador.getVista().imprimirMensage("Se ha insertado correctamente: ");
-            controlador.getVista().imprimirMensage(bosque2.toString());
-            controlador.getVista().imprimirMensage(mago2.toString());
-            controlador.getVista().imprimirMensage(dragon2.toString());
-            controlador.getVista().imprimirMensage(monstruo1.toString());
+            try {
+                controlador.getVista().imprimirMensage("Lista de Monstruos:");
+                controlador.getVista().imprimirMensage("-----------------------------");
+                for (Monstruo m:ControladorMonstruo.obtenerMonstruos(session)) {
+                    controlador.getVista().imprimirMensage(m.toString());
+                }
+            } catch (Exception e) {
+                controlador.getVista().imprimirMensage("Error al obtener la lista de monstruos: " + e.getMessage());
+            }
 
-            tx.commit();
+            try {
+                ControladorMonstruo.borrarMonstruo(session, 1);
+                controlador.getVista().imprimirMensage("Se ha eliminado el monstruo 1");
+            } catch (Exception e) {
+                controlador.getVista().imprimirMensage("Error al borrar monstruo: " + e.getMessage());
+            }
 
-        
-        } catch(HibernateException e) {
-            controlador.getVista().imprimirMensage("Se ha lanzado una excepcion en Hibernate" + e.getMessage());
-        }
+            // ===========================
+            // BOSQUES
+            // ===========================
+            try {
+                Bosque bosque = controlador.getModelo().getBosque();
+                ControladorBosque.agregarBosque(session, bosque);
+                controlador.getVista().imprimirMensage("Se ha insertado el bosque: " + bosque);
+            } catch (Exception e) {
+                controlador.getVista().imprimirMensage("Error al insertar bosque: " + e.getMessage());
+            }
 
-        try (SessionFactory factory = new Configuration().configure().buildSessionFactory();) {
+            try {
+                ControladorBosque.modificarBosqueNombre(session, 1, "El bosque de los vampiros");
+                controlador.getVista().imprimirMensage("Se ha modificado el nombre del bosque 1");
+            } catch (Exception e) {
+                controlador.getVista().imprimirMensage("Error al modificar nombre del bosque: " + e.getMessage());
+            }
 
-            Session session = factory.getCurrentSession();
-            
-            Transaction tx = session.beginTransaction();
+            try {
+                ControladorBosque.modificarBosqueNivelPeligro(session, 1, 3);
+                controlador.getVista().imprimirMensage("Se ha modificado el nivel de peligro del bosque 1");
+            } catch (Exception e) {
+                controlador.getVista().imprimirMensage("Error al modificar nombre del bosque: " + e.getMessage());
+            }
 
-            //Modificar algún objeto de la tabla
-            Mago m = session.find(Mago.class, 3L);
-            m.setNombre("Jose el mago");
+            try {
+                ControladorBosque.modificarBosqueMonstruoJefe(session, 1, new Monstruo("Troll oscuro",10,"troll",40));
+                controlador.getVista().imprimirMensage("Se ha modificado el monstruo jefe del bosque 1");
+            } catch (Exception e) {
+                controlador.getVista().imprimirMensage("Error al modificar nombre del bosque: " + e.getMessage());
+            }
 
-            //AVISOS 
-            controlador.getVista().imprimirMensage("Se ha modificado el mago ");
-            
-            tx.commit();
+            try {
+                ControladorBosque.modificarBosqueDragon(session, 1, new Dragon(10,"Dragon de luz",20));
+                controlador.getVista().imprimirMensage("Se ha modificado el dragon del bosque 1");
+            } catch (Exception e) {
+                controlador.getVista().imprimirMensage("Error al modificar nombre del bosque: " + e.getMessage());
+            }
 
-        } catch(HibernateException e) {
-            controlador.getVista().imprimirMensage("Se ha lanzado una excepcion en Hibernate" + e.getMessage());
-        }
+            try {
+                ControladorBosque.modificarBosqueMonstruos(session, 1, new Monstruo("orco de las profundidades",50,"orco",40));
+                controlador.getVista().imprimirMensage("Se ha agregado el monstruo al bosque 1");
+            } catch (Exception e) {
+                controlador.getVista().imprimirMensage("Error al modificar nombre del bosque: " + e.getMessage());
+            }
 
-        //Eliminar un objeto de la tabla
-        //La eliminación puede fallar si no encuentra el ID, en este caso ya elimine el mago con identificador 2, da un fallo si no lo encuentra
-        try (SessionFactory factory = new Configuration().configure().buildSessionFactory();) {
+            try {
+                controlador.getVista().imprimirMensage("Lista de bosques:");
+                controlador.getVista().imprimirMensage("-----------------------------");
+                for (Bosque b:ControladorBosque.obtenerBosques(session)) {
+                    controlador.getVista().imprimirMensage(b.toString());
+                }
+            } catch (Exception e) {
+                controlador.getVista().imprimirMensage("Error al imprimir la lista de bosques: " + e.getMessage());
+            }
 
-            Session session = factory.getCurrentSession();
-            
-            Transaction tx = session.beginTransaction();
+            try {
+                ControladorBosque.borrarBosque(session, 1);
+                controlador.getVista().imprimirMensage("Se ha eliminado el bosque 1");
+            } catch (Exception e) {
+                controlador.getVista().imprimirMensage("Error al borrar bosque: " + e.getMessage());
+            }
 
-            //Modificar algún objeto de la tabla
-            Mago m = session.find(Mago.class, 2L);
-            session.remove(m);
-
-            //AVISOS 
-            controlador.getVista().imprimirMensage("Se ha removido el mago ");
-            
-            tx.commit();
-
-        } catch(HibernateException e) {
-            controlador.getVista().imprimirMensage("Se ha lanzado una excepcion en Hibernate" + e.getMessage());
+        } catch (HibernateException e) {
+            controlador.getVista().imprimirMensage("Error al abrir la sesión Hibernate: " + e.getMessage());
         }
 
         //ACTIVAR EL COMBATE

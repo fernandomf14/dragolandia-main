@@ -10,18 +10,18 @@
 <!-- Configuraciones de Hibernate -->
 <property name="hibernate.hbm2ddl.auto">update</property>
 <!--
- Hibernate crea/actualiza automaticamente las tablas 
+ Hibernate crea/actualiza automaticamente las tablas
 -->
 <property name="hibernate.show_sql">true</property>
 <property name="hibernate.format_sql">true</property>
 <!--
- Para que funcione el método getCurrentSession en el aula 21 
+ Para que funcione el método getCurrentSession en el aula 21
 -->
 <property name="hibernate.current_session_context_class">thread</property>
 <!-- Registrar entidades -->
-<mapping class="com.example.Modelo.Bosque"/>
-<mapping class="com.example.Modelo.Monstruo"/>
-<mapping class="com.example.Modelo.Mago"/>
-<mapping class="com.example.Modelo.Dragon"/>
+<mapping class="com.example.Modelo.Bosque.Bosque"/>
+<mapping class="com.example.Modelo.Monstruo.Monstruo"/>
+<mapping class="com.example.Modelo.Mago.Mago"/>
+<mapping class="com.example.Modelo.Dragon.Dragon"/>
 </session-factory>
 </hibernate-configuration>

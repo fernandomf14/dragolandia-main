@@ -3,12 +3,12 @@ package com.example.Controlador;
 import java.util.ArrayList;
 import java.util.Random;
 
-import com.example.Modelo.Bosque;
-import com.example.Modelo.Dragon;
+import com.example.Modelo.Bosque.Bosque;
+import com.example.Modelo.Dragon.Dragon;
 import com.example.Modelo.Hechizo.Hechizo;
-import com.example.Modelo.Mago;
+import com.example.Modelo.Mago.Mago;
 import com.example.Modelo.Modelo;
-import com.example.Modelo.Monstruo;
+import com.example.Modelo.Monstruo.Monstruo;
 import com.example.Vista.Vista;
 
 public class Controlador {
@@ -30,115 +30,97 @@ public class Controlador {
 
     public void ComenzarCombate() {
         int turno = 1;
-
-        @SuppressWarnings("unused")
-        Boolean juegan = false;
+        boolean juegoTerminado = false;
 
         Mago mago = modelo.getMago();
         Bosque bosque = modelo.getBosque();
-        Monstruo monstruo = bosque.getMonstruoJefe();
         Dragon dragon = bosque.getDragon();
 
         vista.imprimirMensage("\n---------------------------------------------------------------------------------------------------------------------------");
-        vista.imprimirMensage("Comienza el combate entre el mago " + mago.getNombre() + " en el " + bosque.getNombre() + " contra el monstruo " + monstruo.getNombre());
+        vista.imprimirMensage("Comienza el combate entre el mago " + mago.getNombre() + " en el " + bosque.getNombre()
+            + " contra el monstruo jefe " + bosque.getMonstruoJefe().getNombre());
         vista.imprimirMensage("----------------------------------------------------------------------------------------------------------------------------");
 
-        while (!juegan) {
+        while (!juegoTerminado) {
+            vista.imprimirMensage("\nTurno: " + turno);
+            vista.imprimirMensage("Vida del mago: " + mago.getVida());
 
-            //**************************************
-            //NOTAS DE COMO VA HA FUNCIONAR EL COMBATE:
-            //**************************************
-                //El mago ataca a cada monstruo de la lista de monstruos, luego los monstruos atacan a este. 
-                // El dragon debe activar su efecto 1 vece (para no saturar), lo hice en turno 3
-                //Activar algún hechizo un turno si y otro no
+            // Mostrar vida de todos los monstruos
+            for (Monstruo m : bosque.getlistaMonstruos()) {
+                vista.imprimirMensage("Vida del monstruo " + m.getNombre() + ": " + m.getVida());
+            }
+            vista.imprimirMensage("**********************************");
 
-            
-            //COMPROBAR QUE EL MAGO GANO, YA QUE SU LISTA DE ENEMIGOS ESTA VACIA
-            if (modelo.getBosque().getlistaMonstruos().isEmpty()) {
+            // Comprobar si el mago ya ganó
+            if (bosque.getlistaMonstruos().isEmpty()) {
                 vista.imprimirMensage("El mago fue el vencedor del bosque");
-                juegan = true;
                 break;
             }
 
-            vista.imprimirMensage("Turno: " + turno);
+            // ATAQUE DEL MAGO
+            if (turno % 2 == 0 && !mago.getConjuros().isEmpty()) { // turno de hechizo
+                int random = new Random().nextInt(mago.getConjuros().size());
+                Hechizo h = mago.getConjuros().get(random);
 
-            //**************************************
-            //ATAQUES DEL MAGO A TODOS LOS MONSTRUOS
-            //**************************************
-
-            if (turno%2 == 0) { //TURNO DONDE LANZA UN HECHIZO
-                int random = new Random().nextInt(4);
-                Hechizo h = modelo.getMago().getConjuros().get(random); 
-
-                for (Monstruo m: new ArrayList<>(bosque.getlistaMonstruos())) {
-
-                    if(m.getVida() <= 0) {
-                        bosque.eliminarMonstruo(m);
-                        vista.imprimirMensage("El monstruo " + m.getNombre() + " ha sido derrotado");
-                    }
-
+                for (Monstruo m : new ArrayList<>(bosque.getlistaMonstruos())) {
                     mago.lanzarHechizo(h, m);
-                    vista.imprimirMensage("El mago " + mago.getNombre() + " ha lanzado el hechizo " + h.getNombre() + " atacando al monstruo " + m.getNombre() + " y tiene de vida " + m.getVida());
-                }
+                    vista.imprimirMensage("El mago " + mago.getNombre() + " ha lanzado el hechizo " + h.getNombre()
+                        + " al monstruo " + m.getNombre() + " (vida: " + m.getVida() + ")");
 
-            } else { //TURNO NORMAL DONDE NO LANZA UN HECHIZO
-                
-                for (Monstruo m: new ArrayList<>(bosque.getlistaMonstruos())) {
-
-                    if(m.getVida() <= 0) {
+                    if (m.getVida() <= 0) {
                         bosque.eliminarMonstruo(m);
                         vista.imprimirMensage("El monstruo " + m.getNombre() + " ha sido derrotado");
                     }
-
-                    mago.lanzarHechizo(m);
-                    vista.imprimirMensage("El mago " + mago.getNombre() + " ha atacado al monstruo " + m.getNombre());
                 }
 
+            } else { // turno normal
+                for (Monstruo m : new ArrayList<>(bosque.getlistaMonstruos())) {
+                    mago.lanzarHechizo(m); // ataque normal
+                    vista.imprimirMensage("El mago " + mago.getNombre() + " ha atacado al monstruo " + m.getNombre()
+                        + " (vida: " + m.getVida() + ")");
+
+                    if (m.getVida() <= 0) {
+                        bosque.eliminarMonstruo(m);
+                        vista.imprimirMensage("El monstruo " + m.getNombre() + " ha sido derrotado");
+                    }
+                }
             }
 
-            //**************************************
-            //INTERACCION DEL DRAGON EN EL JUEGO (SOLO UNA VEZ)
-            //**************************************
-
-            if (turno == 3) {
-
-                for (Monstruo m: bosque.getlistaMonstruos()) {
+            // ATAQUE DEL DRAGÓN (solo una vez, turno 3 y si hay monstruos)
+            if (turno == 3 && !bosque.getlistaMonstruos().isEmpty()) {
+                for (Monstruo m : new ArrayList<>(bosque.getlistaMonstruos())) {
                     dragon.exhalar(m);
-                    vista.imprimirMensage("El monstruo " + m.getNombre() + " ha sido atacado por el dragon " + dragon.getNombre());
+                    vista.imprimirMensage("El dragón " + dragon.getNombre() + " ha atacado al monstruo " + m.getNombre()
+                        + " (vida: " + m.getVida() + ")");
+
+                    if (m.getVida() <= 0) {
+                        bosque.eliminarMonstruo(m);
+                        vista.imprimirMensage("El monstruo " + m.getNombre() + " ha sido derrotado por el dragón");
+                    }
                 }
-
             }
 
-            //**************************************
-            //ATAQUES DE LOS MONSTRUOS AL MAGO
-            //**************************************
-
-            for (Monstruo m:bosque.getlistaMonstruos()) {
-                if (mago.getVida()  <= 0) {
-                    vista.imprimirMensage("El mago ha sido derrotado por los monstruos.");
-                    juegan = true;
-                    break;
-                } 
-                
+            // ATAQUE DE LOS MONSTRUOS AL MAGO
+            for (Monstruo m : bosque.getlistaMonstruos()) {
                 m.atacar(mago);
+                vista.imprimirMensage("El monstruo " + m.getNombre() + " ha atacado al mago " + mago.getNombre()
+                    + " (vida del mago: " + mago.getVida() + ")");
+
+                if (mago.getVida() <= 0) {
+                    vista.imprimirMensage("El mago ha sido derrotado por los monstruos.");
+                    juegoTerminado = true;
+                    break;
+                }
             }
 
-            //**************************************
-            //AUMENTO DE TURNO
-            //**************************************
+            // Comprobar si ya no quedan monstruos después de todo
+            if (bosque.getlistaMonstruos().isEmpty()) {
+                vista.imprimirMensage("El mago ha vencido a todos los monstruos del bosque.");
+                juegoTerminado = true;
+            }
 
             turno++;
-
-
-            //**************************************
-            //ESTADISTICAS DE ESE TURNO
-            //**************************************
-            vista.imprimirMensage("La vida del mago es: " + mago.getVida());
-
-            for (Monstruo m:bosque.getlistaMonstruos()) {
-                 vista.imprimirMensage("La vida del monstruo es: " + m.getVida());
-            }
-            vista.imprimirMensage("**********************************");
         }
     }
+
 }

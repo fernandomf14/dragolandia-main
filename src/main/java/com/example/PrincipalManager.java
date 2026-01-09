@@ -1,14 +1,14 @@
 package com.example;
 
 import com.example.Controlador.Controlador;
-import com.example.Modelo.Bosque;
-import com.example.Modelo.ControladorBosque;
-import com.example.Modelo.ControladorDragon;
-import com.example.Modelo.ControladorMago;
-import com.example.Modelo.ControladorMonstruo;
-import com.example.Modelo.Dragon;
-import com.example.Modelo.Mago;
-import com.example.Modelo.Monstruo;
+import com.example.Modelo.Bosque.Bosque;
+import com.example.Modelo.Bosque.ControladorBosque;
+import com.example.Modelo.Dragon.ControladorDragon;
+import com.example.Modelo.Mago.ControladorMago;
+import com.example.Modelo.Monstruo.ControladorMonstruo;
+import com.example.Modelo.Dragon.Dragon;
+import com.example.Modelo.Mago.Mago;
+import com.example.Modelo.Monstruo.Monstruo;
 
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityManagerFactory;
@@ -16,190 +16,213 @@ import jakarta.persistence.Persistence;
 
 public final class PrincipalManager {
 
-    private final  Controlador controlador = new Controlador();
+    private final Controlador controlador = new Controlador();
     static EntityManagerFactory emf = Persistence.createEntityManagerFactory("dragolandiaServizo");
+
     public static void main(String[] args) {
         PrincipalManager principal = new PrincipalManager();
         Controlador controlador = principal.controlador;
 
-        try (
-            EntityManager em = emf.createEntityManager();
-        ) {
+        try (EntityManager em = emf.createEntityManager()) {
 
-        //PRUEBAS CON HIBERNATE CON LA CLASE MAGO
-        //Introducir un mago
-        Mago mago = controlador.getModelo().getMago();
-        ControladorMago.agregarMago(em,mago);
-        controlador.getVista().imprimirMensage("EL mago " + mago.toString() + " fue insertado.");
+            // ===========================
+            // PRUEBAS CON MAGOS
+            // ===========================
+            try {
+                Mago mago = controlador.getModelo().getMago();
+                ControladorMago.agregarMago(em, mago);
+                controlador.getVista().imprimirMensage("Fue insertado correctamente el mago: " + mago);
+            } catch (Exception e) {
+                controlador.getVista().imprimirMensage("Error al insertar mago: " + e.getMessage());
+            }
 
-        //Cambiar al mago
-        ControladorMago.modificarMagoNombre(em,mago, "Juan el mago");
-        controlador.getVista().imprimirMensage("EL mago " + mago.toString() + " fue modificado.");
+            try {
+                Mago mago2 = controlador.getModelo().getMago();
+                ControladorMago.agregarMago(em, mago2);
+                controlador.getVista().imprimirMensage("Fue insertado correctamente el mago: " + mago2);
+            } catch (Exception e) {
+                controlador.getVista().imprimirMensage("Error al insertar mago2: " + e.getMessage());
+            }
 
-        ControladorMago.modificarMagoVida(em,mago, 30);
-        controlador.getVista().imprimirMensage("EL mago " + mago.toString() + " fue modificado.");
+            try {
+                ControladorMago.modificarMagoNombre(em, 1, "Juan el mago");
+                controlador.getVista().imprimirMensage("Se ha cambiado el nombre del mago por Juan el mago");
+            } catch (Exception e) {
+                controlador.getVista().imprimirMensage("Error al modificar nombre del mago: " + e.getMessage());
+            }
 
-        ControladorMago.modificarMagoNivelMagia(em,mago, 30);
-        controlador.getVista().imprimirMensage("EL mago " + mago.toString() + " fue modificado.");
+            try {
+                ControladorMago.modificarMagoVida(em, 1, 30);
+                controlador.getVista().imprimirMensage("Se ha modificado la vida del mago a 30");
+            } catch (Exception e) {
+                controlador.getVista().imprimirMensage("Error al modificar vida del mago: " + e.getMessage());
+            }
 
-        controlador.getVista().imprimirMensage("Lista de todos los magos:");
-        controlador.getVista().imprimirMensage("\n---------------------------------------------------------------------------------------------------------------------------");
-        
-        //Monstrar todos los magos
-        for (Mago m:ControladorMago.obtenerMagos(em)) {
-            controlador.getVista().imprimirMensage(m.toString());
-        }
+            try {
+                ControladorMago.modificarMagoNivelMagia(em, 1, 30);
+                controlador.getVista().imprimirMensage("EL mago 1 fue modificado.");
+            } catch (Exception e) {
+                controlador.getVista().imprimirMensage("Error al modificar nivel de magia del mago: " + e.getMessage());
+            }
 
-        //Borrar al mago
-        ControladorMago.borrarMago(em,3);
-        controlador.getVista().imprimirMensage("EL mago " + mago.toString() + " fue eliminado");
+            try {
+                controlador.getVista().imprimirMensage("Lista de magos");
+                controlador.getVista().imprimirMensage("----------------------------");
+                for (Mago m:ControladorMago.obtenerMagos(em)) {
+                    controlador.getVista().imprimirMensage(m.toString());
+                }
+            } catch (Exception e) {
+                controlador.getVista().imprimirMensage("Error al imprimir la lista de magos: " + e.getMessage());
+            }
 
-        //PRUEBAS CON HIBERNATE CON LA CLASE DRAGON
-        //Introducir un dragon
-        Dragon dragon = controlador.getModelo().getDragon();
-        ControladorDragon.agregarDragon(em,dragon);
-        controlador.getVista().imprimirMensage("EL dragon " + dragon.toString() + " fue insertado.");
+            try {
+                ControladorMago.borrarMago(em, 1);
+                controlador.getVista().imprimirMensage("EL mago 1 fue borrado.");
+            } catch (Exception e) {
+                controlador.getVista().imprimirMensage("Error al borrar el mago: " + e.getMessage());
+            }
 
-        //Cambiar al dragon
-        ControladorDragon.modificarDragonNombre(em,dragon, "El dragon de los cielos");
-        controlador.getVista().imprimirMensage("EL dragon " + dragon.toString() + " fue modificado.");
+            // ===========================
+            // PRUEBAS CON DRAGONES
+            // ===========================
+            try {
+                Dragon dragon = controlador.getModelo().getDragon();
+                ControladorDragon.agregarDragon(em, dragon);
+                controlador.getVista().imprimirMensage("EL dragon " + dragon + " fue insertado.");
+            } catch (Exception e) {
+                controlador.getVista().imprimirMensage("Error al insertar dragon: " + e.getMessage());
+            }
 
-        ControladorDragon.modificarDragonINtensidadFuego(em,dragon, 30);
-        controlador.getVista().imprimirMensage("EL dragon " + dragon.toString() + " fue modificado.");
+            try {
+                ControladorDragon.modificarDragonNombre(em, 1, "El dragon de los cielos");
+                controlador.getVista().imprimirMensage("EL dragon cambió su nombre a El dragon de los cielos");
+            } catch (Exception e) {
+                controlador.getVista().imprimirMensage("Error al modificar nombre del dragon: " + e.getMessage());
+            }
 
-        ControladorDragon.modificarDragonResistencia(em,dragon, 30);
-        controlador.getVista().imprimirMensage("EL dragon " + dragon.toString() + " fue modificado.");
+            try {
+                ControladorDragon.modificarDragonIntensidadFuego(em, 1, 30);
+                controlador.getVista().imprimirMensage("EL dragon tiene nueva intensidad de fuego");
+            } catch (Exception e) {
+                controlador.getVista().imprimirMensage("Error al modificar intensidad de fuego: " + e.getMessage());
+            }
 
-        controlador.getVista().imprimirMensage("Lista de todos los dragones:");
-        controlador.getVista().imprimirMensage("\n---------------------------------------------------------------------------------------------------------------------------");
-        
-        //Monstrar todos los dragones
-        for (Dragon d:ControladorDragon.obtenerDragones(em)) {
-            controlador.getVista().imprimirMensage(d.toString());
-        }
+            try {
+                ControladorDragon.modificarDragonResistencia(em, 1, 30);
+                controlador.getVista().imprimirMensage("EL dragon tiene nueva resistencia");
+            } catch (Exception e) {
+                controlador.getVista().imprimirMensage("Error al modificar resistencia del dragon: " + e.getMessage());
+            }
 
-        //Borrar al dragon
-        ControladorDragon.borrarDragon(em,3);
-        controlador.getVista().imprimirMensage("EL dragon " + dragon.toString() + " fue eliminado");
+            try {
+                controlador.getVista().imprimirMensage("Lista de dragones");
+                controlador.getVista().imprimirMensage("----------------------------");
+                for (Dragon d:ControladorDragon.obtenerDragones(em)) {
+                    controlador.getVista().imprimirMensage(d.toString());
+                }
+            } catch (Exception e) {
+                controlador.getVista().imprimirMensage("Error al imprimir la lista de dragones: " + e.getMessage());
+            }
 
-        //PRUEBAS CON HIBERNATE CON LA CLASE MONSTRUO
-        //Introducir un monstruo
-        Monstruo monstruo = controlador.getModelo().getBosque().getMonstruoJefe();
-        ControladorMonstruo.agregarMonstruo(em,monstruo);
-        controlador.getVista().imprimirMensage("EL monstruo " + monstruo.toString() + " fue insertado.");
+            try {
+                ControladorDragon.borrarDragon(em, 1);
+                controlador.getVista().imprimirMensage("EL dragon ha sido borrado");
+            } catch (Exception e) {
+                controlador.getVista().imprimirMensage("Error al borrar el dragon: " + e.getMessage());
+            }
 
-        //Cambiar al monstruo
-        ControladorMonstruo.modificarMonstruoNombre(em,monstruo, "El troll oscuro");
-        controlador.getVista().imprimirMensage("EL monstruo " + monstruo.toString() + " fue modificado.");
+            // ===========================
+            // PRUEBAS CON MONSTRUOS
+            // ===========================
+            try {
+                Monstruo monstruo = controlador.getModelo().getBosque().getMonstruoJefe();
+                ControladorMonstruo.agregarMonstruo(em, monstruo);
+                controlador.getVista().imprimirMensage("EL monstruo " + monstruo + " fue insertado.");
+            } catch (Exception e) {
+                controlador.getVista().imprimirMensage("Error al insertar monstruo: " + e.getMessage());
+            }
 
-        ControladorMonstruo.modificarMonstruoTipo(em,monstruo, "ogro");
-        controlador.getVista().imprimirMensage("EL monstruo " + monstruo.toString() + " fue modificado.");
+            try {
+                ControladorMonstruo.modificarMonstruoNombre(em, 1, "El troll oscuro");
+                controlador.getVista().imprimirMensage("EL monstruo ha cambiado su nombre");
+            } catch (Exception e) {
+                controlador.getVista().imprimirMensage("Error al modificar nombre del monstruo: " + e.getMessage());
+            }
 
-        ControladorMonstruo.modificarMonstruoVida(em,monstruo, 60);
-        controlador.getVista().imprimirMensage("EL monstruo " + monstruo.toString() + " fue modificado.");
+            try {
+                ControladorMonstruo.modificarMonstruoTipo(em, 1, "ogro");
+                controlador.getVista().imprimirMensage("El monstruo ha cambiado su tipo de monstruo");
+            } catch (Exception e) {
+                controlador.getVista().imprimirMensage("Error al modificar tipo del monstruo: " + e.getMessage());
+            }
 
-        controlador.getVista().imprimirMensage("Lista de todos los monstruos:");
-        controlador.getVista().imprimirMensage("\n---Controlador controlador = principal.controlador;------------------------------------------------------------------------------------------------------------------------");
-        
-        //Monstrar todos los monstruos
-        for (Monstruo d:ControladorMonstruo.obtenerMonstruos(em)) {
-            controlador.getVista().imprimirMensage(d.toString());
-        }
+            try {
+                ControladorMonstruo.modificarMonstruoVida(em, 1, 60);
+                controlador.getVista().imprimirMensage("El monstruo ha cambiado su vida");
+            } catch (Exception e) {
+                controlador.getVista().imprimirMensage("Error al modificar vida del monstruo: " + e.getMessage());
+            }
 
-        //Borrar al Monstruo
-        ControladorMonstruo.borrarMonstruo(em,3);
-        controlador.getVista().imprimirMensage("EL monstruo " + monstruo.toString() + " fue eliminado");
+            try {
+                controlador.getVista().imprimirMensage("Lista de dragones");
+                controlador.getVista().imprimirMensage("----------------------------");
+                for (Monstruo m:ControladorMonstruo.obtenerMonstruos(em)) {
+                    controlador.getVista().imprimirMensage(m.toString());
+                }
+            } catch (Exception e) {
+                controlador.getVista().imprimirMensage("Error al imprimir la lista de monstruos: " + e.getMessage());
+            }
 
-        //PRUEBAS CON HIBERNATE CON LA CLASE BOSQUE
-        //Introducir un bosque
-        Bosque bosque = controlador.getModelo().getBosque();
-        ControladorBosque.agregarBosque(em,bosque);
-        controlador.getVista().imprimirMensage("EL bosque " + bosque.toString() + " fue insertado.");
+            try {
+                ControladorMonstruo.borrarMonstruo(em, 1);
+                controlador.getVista().imprimirMensage("El monstruo ha sido eliminado");
+            } catch (Exception e) {
+                controlador.getVista().imprimirMensage("Error al eliminar el monstruo: " + e.getMessage());
+            }
 
-        //Cambiar al bosque
-        ControladorBosque.modificarBosqueNombre(em,bosque, "El bosque de los vampiros");
-        controlador.getVista().imprimirMensage("EL bosque " + bosque.toString() + " fue modificado.");
+            // ===========================
+            // PRUEBAS CON BOSQUES
+            // ===========================
+            try {
+                Bosque bosque = controlador.getModelo().getBosque();
+                ControladorBosque.agregarBosque(em, bosque);
+                controlador.getVista().imprimirMensage("EL bosque " + bosque + " fue insertado.");
+            } catch (Exception e) {
+                controlador.getVista().imprimirMensage("Error al insertar bosque: " + e.getMessage());
+            }
 
-        ControladorBosque.modificarBosqueMonstruoJefe(em,bosque, monstruo);
-        controlador.getVista().imprimirMensage("EL bosque " + bosque.toString() + " fue modificado.");
+            try {
+                ControladorBosque.modificarBosqueNombre(em, 1, "El bosque de los vampiros");
+                ControladorBosque.modificarBosqueMonstruoJefe(em, 1, new Monstruo("Troll gigante", 110, "troll", 10));
+                ControladorBosque.modificarBosqueDragon(em, 1, new Dragon(10, "Dragon de rayos", 120));
+                ControladorBosque.modificarBosqueNivelPeligro(em, 1, 2);
+                ControladorBosque.modificarBosqueMonstruos(em, 1, new Monstruo("Troll gigante de dos cabezas", 110, "troll", 20));
+                controlador.getVista().imprimirMensage("EL bosque 1 fue modificado.");
+            } catch (Exception e) {
+                controlador.getVista().imprimirMensage("Error al modificar bosque: " + e.getMessage());
+            }
 
-        ControladorBosque.modificarBosqueDragon(em,bosque, dragon);
-        controlador.getVista().imprimirMensage("EL bosque " + bosque.toString() + " fue modificado.");
+            try {
+                for (Bosque d : ControladorBosque.obtenerBosques(em)) {
+                    controlador.getVista().imprimirMensage(d.toString());
+                }
+            } catch (Exception e) {
+                controlador.getVista().imprimirMensage("Error al listar bosques: " + e.getMessage());
+            }
 
-        ControladorBosque.modificarBosqueNivelPeligro(em,bosque, 2);
-        controlador.getVista().imprimirMensage("EL bosque " + bosque.toString() + " fue modificado.");
-
-        ControladorBosque.modificarBosqueMonstruos(em,bosque, monstruo);
-        controlador.getVista().imprimirMensage("EL bosque " + bosque.toString() + " fue modificado.");
-
-        controlador.getVista().imprimirMensage("Lista de todos los bosques:");
-        controlador.getVista().imprimirMensage("\n---------------------------------------------------------------------------------------------------------------------------");
-        
-        //Monstrar todos los bosques
-        for (Bosque d:ControladorBosque.obtenerBosques(em)) {
-            controlador.getVista().imprimirMensage(d.toString());
-        }
-
-        //Borrar al bosque
-        ControladorBosque.borrarBosque(em,3);
-        controlador.getVista().imprimirMensage("EL bosque " + monstruo.toString() + " fue eliminado");
+            try {
+                ControladorBosque.borrarBosque(em, 1);
+                controlador.getVista().imprimirMensage("EL bosque 1 fue eliminado");
+            } catch (Exception e) {
+                controlador.getVista().imprimirMensage("Error al borrar bosque: " + e.getMessage());
+            }
 
         } finally {
             emf.close();
         }
 
-        /*try (
-            EntityManager em = emf.createEntityManager();
-        ) {
-            em.getTransaction().begin();
-
-            //Metemos el mago:
-            Mago mago = controlador.getModelo().getMago();
-            em.merge(mago);
-
-            //Metemos el bosque:
-            Bosque bosque = controlador.getModelo().getBosque();
-            em.merge(bosque);
-
-            //Metemos los monstruos:
-            for (Monstruo m:controlador.getModelo().getBosque().getlistaMonstruos()) {
-                em.merge(m);
-            }
-
-            //Metemos el dragon:
-            Dragon dragon = controlador.getModelo().getDragon();
-            em.merge(dragon);
-
-            em.getTransaction().commit();
-
-            //Avisos:
-            controlador.getVista().imprimirMensage("EL mago " + mago.toString() + " fue insertado.");
-            controlador.getVista().imprimirMensage("EL bosque " + bosque.toString() + " fue insertado.");
-            for (Monstruo m:controlador.getModelo().getBosque().getlistaMonstruos()) {
-                controlador.getVista().imprimirMensage("El monstruo " + m.toString() + " fue insertado");
-            }
-
-            controlador.getVista().imprimirMensage("EL dragon " + dragon.toString() + " fue insertado.");
-
-            em.getTransaction().begin();
-
-            //CAMBIAR DATOS DE UN MAGO:
-            //Modificar algún objeto de la tabla
-            Mago m = em.find(Mago.class, 3);
-            m.setNombre("Alberto el mago");
-
-            //AVISOS 
-            controlador.getVista().imprimirMensage("Se ha modificado el mago " + m.toString());
-            
-            em.getTransaction().commit();
-
-        } finally {
-            emf.close();
-        }*/
-        
-        //ACTIVAR EL COMBATE
-        //controlador.ComenzarCombate();
-
+        // ACTIVAR EL COMBATE
+        controlador.ComenzarCombate();
     }
 
     public static EntityManagerFactory getEmf() {
