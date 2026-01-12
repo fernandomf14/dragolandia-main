@@ -4,10 +4,10 @@ import com.example.Controlador.Controlador;
 import com.example.Modelo.Bosque.Bosque;
 import com.example.Modelo.Bosque.ControladorBosque;
 import com.example.Modelo.Dragon.ControladorDragon;
-import com.example.Modelo.Mago.ControladorMago;
-import com.example.Modelo.Monstruo.ControladorMonstruo;
 import com.example.Modelo.Dragon.Dragon;
+import com.example.Modelo.Mago.ControladorMago;
 import com.example.Modelo.Mago.Mago;
+import com.example.Modelo.Monstruo.ControladorMonstruo;
 import com.example.Modelo.Monstruo.Monstruo;
 
 import jakarta.persistence.EntityManager;
