@@ -245,3 +245,7 @@ erDiagram
 ## Manual de usuario
 
 Puedes consultar el manual de usuario haciendo click [aquí](./Manual%20de%20usuario.md). Si tienes otra duda puedes consultar al soporte [ no existe (: ]
+
+## Enlace al pdf de las capturas
+
+[PDF de capturas](./pdf%20capturas/Capturas%20de%20pantalla%20de%20Dragolandia%20-%20Fernando%20Lázaro%20Masen%20Ferreiro.pdf) de pantalla
